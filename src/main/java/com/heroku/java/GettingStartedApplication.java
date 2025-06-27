@@ -1,15 +1,19 @@
 package com.heroku.java;
 
+import org.jscience.physics.amount.Amount;
+import org.jscience.physics.model.RelativisticModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 
+import javax.measure.unit.SI;
 import javax.sql.DataSource;
 import java.sql.Connection;
 import java.util.ArrayList;
 import java.util.Map;
+import org.springframework.web.bind.annotation.RequestParam;
 
 @SpringBootApplication
 @Controller
@@ -46,6 +50,19 @@ public class GettingStartedApplication {
             model.put("message", t.getMessage());
             return "error";
         }
+    }
+
+    @GetMapping("/convert")
+    String convert(Map<String, Object> model) {
+        RelativisticModel.select();
+        var energy = Amount.valueOf("12 GeV");
+        model.put("result", "E=mc^2: " + energy + " = " + energy.to(SI.KILOGRAM));
+
+        return "convert";
+    }
+
+    public String getMethodName(@RequestParam String param) {
+        return new String();
     }
 
     public static void main(String[] args) {
