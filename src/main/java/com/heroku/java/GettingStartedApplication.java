@@ -55,7 +55,7 @@ public class GettingStartedApplication {
     @GetMapping("/convert")
     String convert(Map<String, Object> model) {
         RelativisticModel.select();
-        var energy = Amount.valueOf("12 GeV");
+        var energy = Amount.valueOf(System.getenv().get("ENERGY"));
         model.put("result", "E=mc^2: " + energy + " = " + energy.to(SI.KILOGRAM));
 
         return "convert";
